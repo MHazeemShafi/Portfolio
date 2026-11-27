@@ -141,22 +141,35 @@ svg {
   }
 
   /* ---- FLOATING NAV CONTROLS ---- */
+  /* Align pill + MENU button with the container's left/right gutter */
   .nb-floating-controls {
-    top: 0.75rem;
-    right: 0.75rem;
+    top: 0.85rem;
+    right: var(--gutter);
     gap: 0.5rem;
+    /* Match left edge of container on the right side */
+    padding-right: 0;
   }
 
-  /* Section pill: hide on small mobile to save space */
+  /* Section pill: keep but shrink on mobile */
   .nb-section-pill {
-    display: none;
+    display: inline-flex;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.68rem;
+    gap: 0.3rem;
   }
 
   .nb-menu-trigger {
-    padding: 0.6rem 1rem;
-    font-size: 0.78rem;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.75rem;
     /* Ensure at least 44px touch target */
     min-height: 44px;
+    gap: 0.5rem;
+  }
+
+  /* Shrink the menu bars icon slightly */
+  .nb-menu-bars {
+    width: 15px;
+    gap: 3px;
   }
 
   /* ---- NAV OVERLAY ---- */
@@ -218,100 +231,157 @@ svg {
   }
 
   /* ---- HERO ---- */
+  /*
+   * KEY FIX: Remove 92vh min-height + align-items:center which creates a
+   * huge empty gap above the fold on mobile. Use natural padding instead.
+   * Top padding = nav height (~3.5rem) + breathing room (1.5rem) = ~5rem
+   */
   .nb-hero {
-    min-height: auto;
-    min-height: 100dvh; /* use dvh where supported */
-    padding-block: clamp(4.5rem, 10vw, 6rem) clamp(2.5rem, 6vw, 4rem);
+    min-height: 100dvh;
+    min-height: 100vh; /* fallback for older browsers */
+    padding-block: 5.25rem 2.5rem;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* content starts from top, no centering gap */
+    overflow-x: hidden;
   }
 
   .nb-hero-editorial {
     gap: 0;
+    width: 100%;
   }
 
   .nb-hero-meta {
-    font-size: 0.7rem;
-    gap: 0.4rem 0.5rem;
-    margin-bottom: 1.25rem;
+    font-size: 0.68rem;
+    gap: 0.3rem 0.45rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.06em;
     /* Allow meta items to wrap cleanly */
     flex-wrap: wrap;
+    line-height: 1.4;
   }
 
+  /* Show dividers — but make them subtle so they don't add width */
   .nb-meta-divider {
-    display: none; /* hide slash dividers — save space on mobile */
+    display: inline;
+    opacity: 0.5;
   }
 
+  /*
+   * Hero title: "text-4xl to text-5xl" feel
+   * clamp(min, preferred, max):
+   *   360px → 10vw = 36px (~2.25rem)  ✓ text-4xl is 2.25rem
+   *   430px → 10vw = 43px (~2.68rem)  ✓ between text-4xl and text-5xl
+   * Keep line-height tight (1.0) so 3 lines of name stack cleanly
+   */
   .nb-hero-title {
-    font-size: clamp(2.6rem, 13vw, 5rem);
-    line-height: 0.92;
+    font-size: clamp(2.25rem, 10.5vw, 3.5rem);
+    line-height: 1.0;
     letter-spacing: -0.04em;
-    /* Prevent heading from overflowing viewport */
     max-width: 100%;
     overflow-wrap: break-word;
     word-break: break-word;
   }
 
+  /* Red highlight box behind "Shafi" — scale padding with font */
+  .nb-hero-highlight {
+    padding: 0.03em 0.18em 0.07em;
+    box-shadow: 4px 4px 0px var(--ink); /* smaller shadow on mobile */
+  }
+
   .nb-hero-split {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
     align-items: start;
   }
 
-  /* Spec panel: compact layout */
+  /* Spec panel: compact, stays single section, no max-width cap */
   .nb-hero-spec {
     max-width: 100%;
     border-top: var(--border-thick);
-    padding-top: 0.75rem;
+    padding-top: 0.6rem;
   }
 
   .nb-hero-spec-head {
-    font-size: 0.7rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.65rem;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.08em;
   }
 
+  /*
+   * Spec rows: KEEP label left + value right on the SAME row (flex-row).
+   * User explicitly wants: flex justify-between items-center — not stacked.
+   */
   .nb-hero-spec-row {
-    padding-block: 0.5rem;
-    gap: 0.5rem;
+    display: flex;
+    flex-direction: row;        /* ← always horizontal */
+    justify-content: space-between;
+    align-items: center;        /* center-align both label and value */
+    gap: 0.75rem;
+    padding-block: 0.45rem;
     flex-wrap: nowrap;
   }
 
   .nb-hero-spec-row dt {
-    font-size: 0.68rem;
+    font-size: 0.65rem;         /* text-xs feel for labels */
     flex-shrink: 0;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
   }
 
   .nb-hero-spec-row dd {
-    font-size: 0.84rem;
+    font-size: 0.82rem;         /* text-sm feel for values */
     text-align: right;
     min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
-  /* Hero bottom: stack intro text above buttons */
+  /* Links in spec rows: don't overflow */
+  .nb-hero-spec-row dd a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Hero bottom: bio + buttons section */
   .nb-hero-bottom {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.25rem;
-    padding-top: 1.25rem;
+    gap: 1rem;
+    padding-top: 1rem;
   }
 
   .nb-hero-intro {
-    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    font-size: clamp(0.9rem, 3.2vw, 1.05rem);
+    line-height: 1.6;
     max-width: 100%;
   }
 
+  /*
+   * CTA Buttons: side-by-side (flex-row) with responsive padding.
+   * They must NOT overflow on 360px–414px.
+   * Use flex: 1 so they share available width equally.
+   */
   .nb-hero-actions {
     width: 100%;
-    flex-direction: column;
-    gap: 0.75rem;
+    flex-direction: row;        /* ← side-by-side */
+    gap: 0.6rem;
+    flex-wrap: wrap;            /* wrap only if truly no room */
   }
 
-  /* Full-width buttons on mobile */
   .nb-hero-actions .nb-btn {
-    width: 100%;
+    flex: 1 1 0;               /* grow equally, shrink equally */
+    min-width: 0;              /* allow shrinking below natural size */
     justify-content: center;
-    min-height: 48px;
+    min-height: 44px;
+    padding: 0.65rem 0.75rem;  /* tighter horizontal padding */
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-align: center;
+    white-space: nowrap;
   }
 
   /* ---- ABOUT ---- */
@@ -687,47 +757,73 @@ svg {
 
 /* ==========================================================================
    STANDARD MOBILE  — ≤ 430px
+   Refinements for 375–430px range (iPhone-class screens)
    ========================================================================== */
 @media (max-width: 430px) {
 
+  /*
+   * Title: "text-4xl" = 2.25rem at 375px.
+   * 10vw at 375px = 37.5px ≈ 2.34rem — right in the text-4xl zone.
+   * Keep line-height 1.0 for compact stacked name lines.
+   */
   .nb-hero-title {
-    font-size: clamp(2.2rem, 12vw, 3.2rem);
+    font-size: clamp(2.1rem, 10.5vw, 2.9rem);
+    line-height: 1.0;
   }
 
   .nb-hero-meta {
-    font-size: 0.65rem;
+    font-size: 0.63rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.9rem;
   }
 
+  /* Section titles (non-hero): slightly smaller */
   .nb-section-title {
     font-size: clamp(1.4rem, 8vw, 2rem);
   }
 
-  /* Spec panel rows: stack label above value on very small screens */
+  /*
+   * Spec rows: STAY horizontal (flex-row) even at 430px.
+   * No stacking — user wants label left, value right, same line.
+   * Tighten padding only.
+   */
   .nb-hero-spec-row {
-    flex-direction: column;
-    gap: 0.15rem;
-    padding-block: 0.6rem;
-  }
-
-  .nb-hero-spec-row dd {
-    text-align: left;
-    font-size: 0.88rem;
+    flex-direction: row;
+    padding-block: 0.4rem;
+    gap: 0.5rem;
   }
 
   .nb-hero-spec-row dt {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
   }
 
-  /* Fact rows in About: also stack */
+  .nb-hero-spec-row dd {
+    font-size: 0.8rem;
+    text-align: right;
+  }
+
+  /* Fact rows in About: also stay horizontal on 430px */
   .nb-fact-row {
-    flex-direction: column;
-    gap: 0.15rem;
-    padding-block: 0.65rem;
+    flex-direction: row;
+    padding-block: 0.6rem;
+    gap: 0.5rem;
+  }
+
+  .nb-fact-row dt {
+    font-size: 0.65rem;
+    flex-shrink: 0;
   }
 
   .nb-fact-row dd {
-    text-align: left;
-    font-size: 0.95rem;
+    text-align: right;
+    font-size: 0.9rem;
+  }
+
+  /* Buttons: stay side-by-side, tighten font */
+  .nb-hero-actions .nb-btn {
+    font-size: 0.7rem;
+    padding: 0.6rem 0.65rem;
+    letter-spacing: 0.05em;
   }
 
   /* Project name: smaller on 430px */
@@ -753,6 +849,7 @@ svg {
 
 /* ==========================================================================
    SMALL MOBILE  — ≤ 374px
+   Most compact layout for 320–374px screens
    ========================================================================== */
 @media (max-width: 374px) {
 
@@ -760,20 +857,63 @@ svg {
     --gutter: 0.9rem;
   }
 
+  /*
+   * Hero title: at 320px, 10vw = 32px = 2rem.
+   * clamp(1.9rem, 10.5vw, 2.5rem) keeps it readable without overflow.
+   */
   .nb-hero-title {
-    font-size: clamp(1.9rem, 13vw, 2.8rem);
+    font-size: clamp(1.9rem, 10.5vw, 2.5rem);
     letter-spacing: -0.035em;
+  }
+
+  /* Tighten top padding — less nav space at smaller sizes */
+  .nb-hero {
+    padding-block: 4.75rem 2rem;
+  }
+
+  .nb-hero-meta {
+    font-size: 0.6rem;
+    margin-bottom: 0.75rem;
   }
 
   .nb-section-title {
     font-size: clamp(1.25rem, 9vw, 1.8rem);
   }
 
-  .nb-hero-actions .nb-btn {
-    font-size: 0.75rem;
-    padding: 0.7rem 0.9rem;
+  /*
+   * Spec rows: STAY horizontal even at 320–374px.
+   * Just tighten the font further.
+   */
+  .nb-hero-spec-row {
+    flex-direction: row;
+    padding-block: 0.35rem;
+    gap: 0.4rem;
   }
 
+  .nb-hero-spec-row dt {
+    font-size: 0.58rem;
+    letter-spacing: 0.05em;
+  }
+
+  .nb-hero-spec-row dd {
+    font-size: 0.75rem;
+    text-align: right;
+  }
+
+  /*
+   * CTA Buttons at 320–374px:
+   * With flex: 1 1 0, two buttons each get ~50% width minus gap.
+   * At 320px with 0.9rem gutter each side + 0.6rem gap:
+   *   available = 320 - (2*14.4) - 9.6 = ~281px → ~137px per button ✓
+   * Keep them side-by-side — just shrink font more.
+   */
+  .nb-hero-actions .nb-btn {
+    font-size: 0.65rem;
+    padding: 0.55rem 0.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Nav overlay */
   .nb-nav-link {
     grid-template-columns: 2rem 1fr;
     gap: 0.4rem;
@@ -793,11 +933,11 @@ svg {
   }
 
   .nb-menu-trigger {
-    font-size: 0.72rem;
-    padding: 0.55rem 0.8rem;
+    font-size: 0.68rem;
+    padding: 0.5rem 0.75rem;
   }
 
-  /* Project buttons: stack fully */
+  /* Project buttons: stack at 320px only if truly needed */
   .nb-project-links .nb-btn {
     width: 100%;
     flex-basis: 100%;
@@ -936,14 +1076,25 @@ svg {
 /* ==========================================================================
    SAFE-AREA INSETS — For notched/dynamic-island phones
    ========================================================================== */
+/*
+ * Nav controls: align right edge with the container gutter.
+ * --gutter is clamp(1rem, 5vw, 1.5rem) on mobile, so this keeps
+ * the MENU button flush with section content.
+ */
 .nb-floating-controls {
   right: max(var(--gutter), env(safe-area-inset-right, 1rem));
-  top: max(1.25rem, env(safe-area-inset-top, 1.25rem));
+  top: max(1rem, env(safe-area-inset-top, 1rem));
 }
 
 .nb-footer {
   padding-left: max(var(--gutter), env(safe-area-inset-left));
   padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* Marquee: prevent horizontal page scroll from the scrolling text band */
+.nb-marquee {
+  overflow: hidden; /* clip the sliding track, never let it cause page-width overflow */
+  max-width: 100vw;
 }
 
 /* ==========================================================================
