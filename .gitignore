@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.worktrees/
+_recovery_backup/
+recovery-info/
+temp_repo/
+.agent/
+certificates/
+docs/superpowers/
+projectsimg/
+.DS_Store
+*.log
