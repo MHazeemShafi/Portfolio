@@ -1,0 +1,34 @@
+:root {
+  /* Punk Zine × Swiss Typography × Industrial Signage Palette */
+  --bg-newsprint: #F4F3EE;
+  --surface-white: #FFFFFF;
+  --signal-red: #E61919;
+  --pitch-black: #0A0A0A;
+
+  /* Semantic tokens */
+  --bg-page: var(--bg-newsprint);
+  --surface: var(--surface-white);
+  --red: var(--signal-red);
+  --ink: var(--pitch-black);
+
+  /* Unified Neo-Brutalist Borders & Pitch-Black Hard Offset Shadows */
+  --border-thin: 2px solid var(--ink);
+  --border-thick: 3px solid var(--ink);
+  --border-heavy: 4px solid var(--ink);
+  --shadow-sm: 4px 4px 0px var(--ink);
+  --shadow-md: 5px 5px 0px var(--ink);
+  --shadow-lg: 7px 7px 0px var(--ink);
+
+  /* Typography */
+  --font-sans: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Layout */
+  --container-max: 1320px;
+  --section-pad-y: clamp(4.5rem, 8vw, 7.5rem);
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+
+  /* Motion */
+  --ease-brutal: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+}
