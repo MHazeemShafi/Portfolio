@@ -530,6 +530,7 @@ button {
 /* 01 — HERO */
 .nb-hero {
   min-height: 92vh;
+  min-height: 92dvh;
   display: flex;
   align-items: center;
   padding-block: 6.5rem 4.5rem;
@@ -1045,7 +1046,7 @@ button {
 }
 
 .nb-project-entry.is-layout-reverse .nb-project-media {
-  order: 2;
+  order: 2; /* desktop: media on right */
 }
 
 .nb-project-entry.is-layout-offset {
@@ -1320,21 +1321,27 @@ button {
   border: var(--border-thin);
 }
 
-/* Responsive Breakpoints */
+/* Responsive Breakpoints — base resets; full detail in responsive.css */
 @media (max-width: 1024px) {
-  .nb-hero-split,
+  /* Hero spec panel: no fixed minimum column */
+  .nb-hero-split {
+    grid-template-columns: 1fr;
+  }
+
+  /* Layout sections: single column */
   .nb-about-layout,
-  .nb-contact-layout,
+  .nb-contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Projects: all layouts single column */
   .nb-project-entry.is-layout-wide,
   .nb-project-entry.is-layout-reverse,
   .nb-project-entry.is-layout-offset {
     grid-template-columns: 1fr;
   }
 
-  .nb-project-entry.is-layout-reverse .nb-project-media {
-    order: 0;
-  }
-
+  /* Skills and timeline: single column */
   .nb-skill-row,
   .nb-timeline-row {
     grid-template-columns: 1fr;
@@ -1357,14 +1364,27 @@ button {
     padding-block: 5.5rem 3.5rem;
   }
 
+  /* Cert row: 2-column layout on tablet */
   .nb-cert-row {
     grid-template-columns: auto 1fr;
-    gap: 0.45rem 0.75rem;
+    grid-template-rows: auto auto;
+    gap: 0.35rem 0.75rem;
+    align-items: start;
   }
 
-  .nb-cert-inst,
+  .nb-cert-title {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .nb-cert-inst {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
   .nb-cert-view {
     grid-column: 2;
+    grid-row: 3;
   }
 
   .nb-nav-link {

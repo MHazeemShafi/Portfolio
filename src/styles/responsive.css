@@ -1,0 +1,969 @@
+/* ==========================================================================
+   RESPONSIVE.CSS — Mobile-First Responsive Overhaul
+   Portfolio: Mohammed Hazeem Shafi
+   Breakpoints:
+     xs: 320–374px   (small mobile)
+     sm: 375–430px   (standard mobile)
+     md: 431–600px   (large mobile)
+     lg: 601–1024px  (tablet)
+     xl: 1025px+     (desktop — base styles in global.css)
+   ========================================================================== */
+
+/* ==========================================================================
+   GLOBAL SAFETY NET
+   Prevent any child from forcing horizontal overflow
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  /* Use dvh where supported — prevents 100vh address-bar bugs */
+  min-height: 100dvh;
+}
+
+/* Ensure images, iframes, videos never overflow their container */
+img,
+video,
+iframe,
+embed,
+object,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Grid/flex children: allow shrinking below their natural size */
+.nb-project-content,
+.nb-project-media,
+.nb-about-statement,
+.nb-about-details,
+.nb-contact-lead,
+.nb-contact-panel,
+.nb-timeline-meta,
+.nb-timeline-body,
+.nb-skill-cat,
+.nb-skill-list {
+  min-width: 0;
+}
+
+/* Long words / email addresses must wrap */
+.nb-contact-email,
+.nb-hero-spec-row dd,
+.nb-fact-row dd,
+.nb-timeline-org,
+.nb-timeline-detail {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ==========================================================================
+   TABLET  — ≤ 1024px
+   Override the already-existing collapse but add more polish
+   ========================================================================== */
+@media (max-width: 1024px) {
+
+  /* Hero: spec panel stacks under title on tablet */
+  .nb-hero-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Spec panel should not be constrained by the min 260px column */
+  .nb-hero-spec {
+    max-width: 540px;
+  }
+
+  /* About: single column */
+  .nb-about-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Skills: single column */
+  .nb-skill-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  /* Timeline: single column */
+  .nb-timeline-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem 1rem;
+  }
+
+  /* Projects: all layouts single column */
+  .nb-project-entry.is-layout-wide,
+  .nb-project-entry.is-layout-reverse,
+  .nb-project-entry.is-layout-offset {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reverse layout: image comes first on tablet too */
+  .nb-project-entry.is-layout-reverse .nb-project-media {
+    order: -1;
+  }
+
+  /* Contact: single column */
+  .nb-contact-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ==========================================================================
+   LARGE MOBILE  — ≤ 600px
+   ========================================================================== */
+@media (max-width: 600px) {
+
+  /* ---- GLOBAL / LAYOUT ---- */
+
+  /* Tighter section padding on mobile */
+  :root {
+    --section-pad-y: clamp(3rem, 8vw, 5rem);
+    --gutter: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .nb-section-header {
+    gap: 0.75rem;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .nb-section-title {
+    font-size: clamp(1.6rem, 7vw, 2.6rem);
+  }
+
+  /* ---- FLOATING NAV CONTROLS ---- */
+  .nb-floating-controls {
+    top: 0.75rem;
+    right: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  /* Section pill: hide on small mobile to save space */
+  .nb-section-pill {
+    display: none;
+  }
+
+  .nb-menu-trigger {
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+    /* Ensure at least 44px touch target */
+    min-height: 44px;
+  }
+
+  /* ---- NAV OVERLAY ---- */
+  .nb-nav-overlay {
+    /* Full screen takeover, respect safe areas */
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0)
+      env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nb-nav-overlay-inner {
+    padding: max(1.25rem, env(safe-area-inset-top, 1.25rem)) 1.25rem
+      max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
+    gap: 1.5rem;
+    min-height: 100dvh;
+    min-height: 100vh; /* fallback */
+  }
+
+  .nb-nav-overlay-top {
+    padding-bottom: 1rem;
+  }
+
+  .nb-nav-owner {
+    font-size: 0.78rem;
+  }
+
+  /* Nav links: tighten the grid, enlarge touch targets */
+  .nb-nav-link {
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: 0.5rem 0.75rem;
+    padding: 0.9rem 0.25rem;
+    min-height: 48px;
+  }
+
+  .nb-nav-num {
+    font-size: 0.82rem;
+  }
+
+  .nb-nav-text {
+    font-size: clamp(1.6rem, 8vw, 2.8rem);
+    line-height: 1;
+  }
+
+  .nb-nav-arrow {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+  }
+
+  .nb-nav-overlay-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .nb-nav-socials {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ---- HERO ---- */
+  .nb-hero {
+    min-height: auto;
+    min-height: 100dvh; /* use dvh where supported */
+    padding-block: clamp(4.5rem, 10vw, 6rem) clamp(2.5rem, 6vw, 4rem);
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .nb-hero-editorial {
+    gap: 0;
+  }
+
+  .nb-hero-meta {
+    font-size: 0.7rem;
+    gap: 0.4rem 0.5rem;
+    margin-bottom: 1.25rem;
+    /* Allow meta items to wrap cleanly */
+    flex-wrap: wrap;
+  }
+
+  .nb-meta-divider {
+    display: none; /* hide slash dividers — save space on mobile */
+  }
+
+  .nb-hero-title {
+    font-size: clamp(2.6rem, 13vw, 5rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    /* Prevent heading from overflowing viewport */
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .nb-hero-split {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: start;
+  }
+
+  /* Spec panel: compact layout */
+  .nb-hero-spec {
+    max-width: 100%;
+    border-top: var(--border-thick);
+    padding-top: 0.75rem;
+  }
+
+  .nb-hero-spec-head {
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .nb-hero-spec-row {
+    padding-block: 0.5rem;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+
+  .nb-hero-spec-row dt {
+    font-size: 0.68rem;
+    flex-shrink: 0;
+  }
+
+  .nb-hero-spec-row dd {
+    font-size: 0.84rem;
+    text-align: right;
+    min-width: 0;
+  }
+
+  /* Hero bottom: stack intro text above buttons */
+  .nb-hero-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding-top: 1.25rem;
+  }
+
+  .nb-hero-intro {
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    max-width: 100%;
+  }
+
+  .nb-hero-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Full-width buttons on mobile */
+  .nb-hero-actions .nb-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  /* ---- ABOUT ---- */
+  .nb-about-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .nb-editorial-lead {
+    font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+    padding-left: 1rem;
+    border-left-width: 4px;
+  }
+
+  .nb-editorial-body {
+    font-size: 0.98rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .nb-facts-strip {
+    padding: 0.1rem 1rem;
+  }
+
+  .nb-fact-row {
+    padding-block: 0.75rem;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+
+  .nb-fact-row dt {
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .nb-fact-row dd {
+    font-size: 0.95rem;
+    text-align: right;
+    min-width: 0;
+  }
+
+  /* ---- SKILLS ---- */
+  .nb-skill-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    padding: 1.1rem 1rem;
+    /* Disable hover padding-left on touch */
+    transition: background-color 0.18s ease;
+  }
+
+  .nb-skill-row:hover {
+    padding-left: 1rem; /* override desktop hover effect */
+  }
+
+  .nb-skill-cat h3 {
+    font-size: 1rem;
+  }
+
+  .nb-idx-badge {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .nb-skill-item {
+    font-size: 0.95rem;
+    gap: 0.5rem;
+  }
+
+  .nb-skill-list {
+    gap: 0.35rem 0.55rem;
+  }
+
+  /* ---- EXPERIENCE & EDUCATION ---- */
+  .nb-timeline-row {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+    padding: 1.1rem 1rem;
+  }
+
+  .nb-timeline-meta {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .nb-timeline-kind {
+    font-size: 0.65rem;
+    padding: 0.18rem 0.45rem;
+  }
+
+  .nb-timeline-meta time {
+    font-size: 0.82rem;
+  }
+
+  .nb-timeline-body h3 {
+    font-size: 1.15rem;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.2rem;
+    overflow-wrap: break-word;
+  }
+
+  .nb-timeline-org {
+    font-size: 0.78rem;
+    margin-bottom: 0.4rem;
+    overflow-wrap: break-word;
+  }
+
+  .nb-timeline-detail {
+    font-size: 0.93rem;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+
+  /* Certificates */
+  .nb-certs-block {
+    margin-top: 2.5rem;
+  }
+
+  .nb-certs-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .nb-certs-header h3 {
+    font-size: 1.2rem;
+  }
+
+  /* Certificate rows: 2-column on mobile (badge + content) */
+  .nb-cert-row {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.3rem 0.75rem;
+    padding: 0.9rem 1rem;
+    min-height: 44px;
+  }
+
+  .nb-cert-row:hover {
+    padding-inline: 1rem; /* override desktop hover */
+  }
+
+  .nb-idx-badge.nb-cert-badge {
+    grid-row: span 2;
+    align-self: center;
+  }
+
+  .nb-cert-title {
+    font-size: 0.95rem;
+    grid-column: 2;
+    grid-row: 1;
+    overflow-wrap: break-word;
+  }
+
+  .nb-cert-inst {
+    font-size: 0.72rem;
+    grid-column: 2;
+    grid-row: 2;
+    overflow-wrap: break-word;
+  }
+
+  .nb-cert-view {
+    display: none; /* hide VIEW ↗ label on mobile — entire row is tappable */
+  }
+
+  /* Modal (certificate/project preview) */
+  .nb-modal {
+    padding: 0.75rem;
+    padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem
+      max(0.75rem, env(safe-area-inset-bottom));
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .nb-modal-dialog {
+    width: 100%;
+    max-height: none;
+    max-height: calc(100dvh - 1.5rem);
+  }
+
+  .nb-modal-head {
+    padding: 0.9rem 1rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .nb-modal-head h3 {
+    font-size: 1.1rem;
+    overflow-wrap: break-word;
+  }
+
+  .nb-modal-body {
+    padding: 1rem;
+  }
+
+  .nb-modal-body img,
+  .nb-modal-body iframe {
+    max-height: 60vh;
+    max-height: 60dvh;
+  }
+
+  /* ---- PROJECTS ---- */
+  .nb-projects-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .nb-filter-bar {
+    width: 100%;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .nb-filter-pill {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.72rem;
+    min-height: 40px;
+  }
+
+  .nb-projects-showcase {
+    gap: clamp(2.5rem, 6vw, 3.5rem);
+  }
+
+  .nb-project-entry {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  /* All project layouts: image always first on mobile */
+  .nb-project-entry.is-layout-wide,
+  .nb-project-entry.is-layout-reverse,
+  .nb-project-entry.is-layout-offset {
+    grid-template-columns: 1fr;
+  }
+
+  .nb-project-entry .nb-project-media {
+    order: -1;
+  }
+
+  .nb-project-frame img {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Override the reverse layout's 4/3 aspect ratio */
+  .is-layout-reverse .nb-project-frame img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .nb-project-meta-bar {
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  .nb-project-name {
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+    margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
+  }
+
+  .nb-project-desc {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .nb-project-features {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+  }
+
+  .nb-project-features li {
+    font-size: 0.93rem;
+  }
+
+  .nb-project-tech {
+    gap: 0.4rem 0.65rem;
+    margin-bottom: 1.25rem;
+    padding-block: 0.6rem;
+  }
+
+  .nb-tech-label {
+    font-size: 0.72rem;
+  }
+
+  .nb-project-links {
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  /* Full-width project buttons on mobile */
+  .nb-project-links .nb-btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  /* ---- CONTACT ---- */
+  .nb-contact-layout {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .nb-contact-copy {
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    max-width: 100%;
+  }
+
+  .nb-contact-panel {
+    padding: 1.25rem 1rem;
+  }
+
+  .nb-contact-email {
+    font-size: clamp(1rem, 5vw, 1.4rem);
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem;
+    display: block; /* full width, wraps on mobile */
+    word-break: break-all;
+  }
+
+  .nb-contact-actions {
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .nb-contact-actions .nb-btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  /* ---- FOOTER ---- */
+  .nb-footer {
+    padding-block: 1.1rem;
+    padding-bottom: max(1.1rem, env(safe-area-inset-bottom, 1.1rem));
+  }
+
+  .nb-footer-minimal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .nb-footer-name {
+    font-size: 0.9rem;
+  }
+
+  .nb-footer-links {
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.75rem;
+  }
+
+  /* ---- MARQUEE ---- */
+  .nb-marquee-item {
+    font-size: 0.75rem;
+    gap: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* ---- GENERIC BUTTONS ---- */
+  .nb-btn {
+    min-height: 44px;
+    padding: 0.75rem 1.1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ==========================================================================
+   STANDARD MOBILE  — ≤ 430px
+   ========================================================================== */
+@media (max-width: 430px) {
+
+  .nb-hero-title {
+    font-size: clamp(2.2rem, 12vw, 3.2rem);
+  }
+
+  .nb-hero-meta {
+    font-size: 0.65rem;
+  }
+
+  .nb-section-title {
+    font-size: clamp(1.4rem, 8vw, 2rem);
+  }
+
+  /* Spec panel rows: stack label above value on very small screens */
+  .nb-hero-spec-row {
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-block: 0.6rem;
+  }
+
+  .nb-hero-spec-row dd {
+    text-align: left;
+    font-size: 0.88rem;
+  }
+
+  .nb-hero-spec-row dt {
+    font-size: 0.65rem;
+  }
+
+  /* Fact rows in About: also stack */
+  .nb-fact-row {
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-block: 0.65rem;
+  }
+
+  .nb-fact-row dd {
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  /* Project name: smaller on 430px */
+  .nb-project-name {
+    font-size: clamp(1.3rem, 8vw, 1.9rem);
+  }
+
+  /* Nav overlay link text */
+  .nb-nav-text {
+    font-size: clamp(1.4rem, 9vw, 2.4rem);
+  }
+
+  /* Timeline body heading */
+  .nb-timeline-body h3 {
+    font-size: 1.05rem;
+  }
+
+  /* Certificate row: compact */
+  .nb-cert-row {
+    padding: 0.75rem 0.9rem;
+  }
+}
+
+/* ==========================================================================
+   SMALL MOBILE  — ≤ 374px
+   ========================================================================== */
+@media (max-width: 374px) {
+
+  :root {
+    --gutter: 0.9rem;
+  }
+
+  .nb-hero-title {
+    font-size: clamp(1.9rem, 13vw, 2.8rem);
+    letter-spacing: -0.035em;
+  }
+
+  .nb-section-title {
+    font-size: clamp(1.25rem, 9vw, 1.8rem);
+  }
+
+  .nb-hero-actions .nb-btn {
+    font-size: 0.75rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .nb-nav-link {
+    grid-template-columns: 2rem 1fr;
+    gap: 0.4rem;
+  }
+
+  /* Hide the nav arrow on very small screens */
+  .nb-nav-arrow {
+    display: none;
+  }
+
+  .nb-nav-text {
+    font-size: clamp(1.3rem, 10vw, 2rem);
+  }
+
+  .nb-floating-controls {
+    gap: 0.35rem;
+  }
+
+  .nb-menu-trigger {
+    font-size: 0.72rem;
+    padding: 0.55rem 0.8rem;
+  }
+
+  /* Project buttons: stack fully */
+  .nb-project-links .nb-btn {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .nb-contact-actions .nb-btn {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  /* Modal: adjust close button */
+  .nb-modal-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nb-modal-head .nb-btn {
+    align-self: flex-end;
+    margin-top: 0.25rem;
+  }
+}
+
+/* ==========================================================================
+   DESKTOP-SITE MODE ON MOBILE
+   When a mobile user forces desktop site, the viewport meta tag is ignored
+   and the viewport can be as narrow as 320px. These rules prevent overflow
+   in that scenario.
+   ========================================================================== */
+@media (max-width: 1024px) {
+
+  /* Prevent any section container from exceeding viewport */
+  .nb-container {
+    width: 100%;
+    padding-inline: var(--gutter);
+    max-width: 100%;
+  }
+
+  /* Hero: never overflow width */
+  .nb-hero-editorial {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Skills ledger: overflow safety */
+  .nb-skills-ledger {
+    overflow: hidden;
+  }
+
+  /* Timeline: overflow safety */
+  .nb-timeline {
+    overflow: hidden;
+  }
+
+  /* Certs: overflow safety */
+  .nb-certs-list {
+    overflow: hidden;
+  }
+
+  /* Project showcase: overflow safety */
+  .nb-projects-showcase {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Modals in tablet mode — still need width cap */
+  .nb-modal-dialog {
+    width: min(960px, calc(100vw - 3rem));
+  }
+}
+
+/* ==========================================================================
+   SCROLL REVEAL — Prevent animation transforms from causing overflow
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* Reduce translate distance so it doesn't cause momentary layout shift */
+  [data-reveal="from-left"] {
+    transform: translateX(-16px);
+  }
+
+  [data-reveal="from-right"] {
+    transform: translateX(16px);
+  }
+
+  [data-reveal="fade-up"] {
+    transform: translateY(14px);
+  }
+
+  [data-reveal="stagger"] > * {
+    transform: translateY(10px);
+  }
+}
+
+/* ==========================================================================
+   TOUCH TARGETS — All interactive elements: 44px minimum
+   ========================================================================== */
+@media (pointer: coarse) {
+  .nb-btn,
+  .nb-filter-pill,
+  .nb-menu-trigger,
+  .nb-cert-row,
+  .nb-nav-link,
+  .nb-project-frame,
+  .nb-footer-links a,
+  .nb-nav-overlay-foot a {
+    min-height: 44px;
+  }
+
+  /* Disable desktop hover-based padding shifts on touch */
+  .nb-skill-row:hover {
+    padding-left: 1.5rem;
+    background-color: transparent;
+  }
+
+  .nb-cert-row:hover {
+    background: transparent;
+    color: inherit;
+    padding-inline: 1rem;
+  }
+
+  /* Project frame hover transform: disable on touch */
+  .nb-project-frame:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+
+  .nb-project-frame:hover img {
+    transform: none;
+  }
+
+  .nb-btn:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* ==========================================================================
+   SAFE-AREA INSETS — For notched/dynamic-island phones
+   ========================================================================== */
+.nb-floating-controls {
+  right: max(var(--gutter), env(safe-area-inset-right, 1rem));
+  top: max(1.25rem, env(safe-area-inset-top, 1.25rem));
+}
+
+.nb-footer {
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* ==========================================================================
+   PRINT — Basic print styles
+   ========================================================================== */
+@media print {
+  .nb-floating-controls,
+  .nb-nav-overlay,
+  .nb-cursor-dot,
+  .nb-scroll-progress,
+  .nb-marquee,
+  .nb-footer {
+    display: none !important;
+  }
+
+  .nb-hero {
+    min-height: auto;
+  }
+
+  * {
+    box-shadow: none !important;
+  }
+}

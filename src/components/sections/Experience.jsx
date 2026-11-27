@@ -93,13 +93,14 @@ export default function Experience() {
                 type="button"
                 className="nb-cert-row"
                 onClick={() => setSelectedCert(cert)}
+                aria-label={`View certificate: ${cert.title}`}
               >
-                <span className="nb-idx-badge">0{idx + 1}</span>
+                <span className="nb-idx-badge nb-cert-badge">0{idx + 1}</span>
                 <span className="nb-cert-title">{cert.title}</span>
                 <span className="nb-cert-inst">
                   {cert.institution} · {cert.year}
                 </span>
-                <span className="nb-cert-view">VIEW ↗</span>
+                <span className="nb-cert-view" aria-hidden="true">VIEW ↗</span>
               </button>
             ))}
           </div>
